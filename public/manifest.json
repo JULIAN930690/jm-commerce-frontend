@@ -1,0 +1,29 @@
+{
+  "short_name": "MiMercado",
+  "name": "Mi Mercado - Tienda Online de Productos y Ofertas",
+  "description": "Compra productos, explora categorías, consulta reseñas y accede a promociones en Mi Mercado. Tu tienda online confiable.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "categories": ["shopping", "ecommerce", "marketplace"],
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable any"
+    }
+  ]
+}

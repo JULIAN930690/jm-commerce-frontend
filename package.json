@@ -1,0 +1,53 @@
+{
+  "name": "jm-commerce-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@braintree/sanitize-url": "^7.1.1",
+    "@hookform/resolvers": "^5.0.1",
+    "autolinker": "^3.0.0",
+    "axios": "^1.9.0",
+    "btoa": "^1.2.1",
+    "cookie": "^1.0.2",
+    "dompurify": "^3.2.5",
+    "fast-json-patch": "^3.1.1",
+    "formdata-node": "^6.0.3",
+    "framer-motion": "^12.8.0",
+    "isarray": "^2.0.5",
+    "lucide-react": "^0.501.0",
+    "qs": "^6.14.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.56.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.5.0",
+    "react-toastify": "^11.0.5",
+    "swagger-ui-react": "^3.29.0",
+    "traverse": "^0.6.11",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.0.0",
+    "vite": "^6.3.2"
+  },
+  "description": "Frontend JM Commerce - React + Vite",
+  "author": "Tu Nombre",
+  "license": "ISC"
+}
