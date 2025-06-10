@@ -8,6 +8,7 @@ export default defineConfig({
     ignoreAutolinkerSourcemapWarnings(),
   ],
   build: {
+    outDir: 'dist', // para que Vercel use esta carpeta
     sourcemap: false,
   },
   esbuild: {
@@ -19,7 +20,7 @@ export default defineConfig({
   server: {
     open: true,
     strictPort: true,
-    host: '0.0.0.0',         // <---- aquí, para que sea accesible en red
+    host: '0.0.0.0',
     port: 5173,
     fs: {
       strict: false,
@@ -30,9 +31,10 @@ export default defineConfig({
         '**/.git/**',
         '**/dist/**',
         '**/swagger-ui-react/swagger-ui.css.map',
-        '**/worker.js.map', // ← AÑADIDO PARA EVITAR EL WARNING
+        '**/worker.js.map',
       ],
     },
   },
-  logLevel: 'info',
+  base: '/', // IMPORTANTE para que funcione en producción
+  logLevel: 'info'
 });
