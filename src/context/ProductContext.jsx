@@ -15,8 +15,8 @@ export const ProductProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [offers, setOffers] = useState([]);
 
-  const API_URL =
-    (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "") + "/api";
+  // ✅ Elimina doble /api
+  const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "");
 
   const fetchProducts = async () => {
     try {
@@ -30,9 +30,10 @@ export const ProductProvider = ({ children }) => {
       if (order) params.append("order", order);
       params.append("page", currentPage);
 
-      const res = await fetch(`${API_URL}/products?${params.toString()}`);
-      if (!res.ok) throw new Error("Error en la respuesta de productos");
-      const data = await res.json();
+      const response = await fetch(`${API_URL}/products?${params.toString()}`);
+      if (!response.ok) throw new Error("Error al obtener productos");
+
+      const data = await response.json();
       setProducts(data.products || []);
       setTotalPages(data.total_pages || 1);
     } catch (error) {
@@ -43,7 +44,7 @@ export const ProductProvider = ({ children }) => {
   const fetchOffers = async () => {
     try {
       const res = await fetch(`${API_URL}/products/offers`);
-      if (!res.ok) throw new Error("Error en la respuesta de ofertas");
+      if (!res.ok) throw new Error("Error al obtener ofertas");
       const data = await res.json();
       setOffers(data.offers || []);
     } catch (error) {
@@ -54,7 +55,7 @@ export const ProductProvider = ({ children }) => {
   const fetchCategories = async () => {
     try {
       const res = await fetch(`${API_URL}/categories`);
-      if (!res.ok) throw new Error("Error en la respuesta de categorías");
+      if (!res.ok) throw new Error("Error al obtener categorías");
       const data = await res.json();
       setCategories(data || []);
     } catch (error) {
@@ -98,6 +99,8 @@ export const ProductProvider = ({ children }) => {
 };
 
 export const useProducts = () => useContext(ProductContext);
+
+
 
 
 
