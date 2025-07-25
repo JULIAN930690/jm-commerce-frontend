@@ -5,10 +5,10 @@ import ignoreAutolinkerSourcemapWarnings from './vite-plugin-ignore-warnings.js'
 export default defineConfig({
   plugins: [
     react(),
-    ignoreAutolinkerSourcemapWarnings(),
+    ignoreAutolinkerSourcemapWarnings()
   ],
   build: {
-    outDir: 'dist', // para que Vercel use esta carpeta
+    outDir: 'dist',
     sourcemap: false,
   },
   esbuild: {
@@ -19,7 +19,6 @@ export default defineConfig({
   },
   server: {
     open: true,
-    strictPort: true,
     host: '0.0.0.0',
     port: 5173,
     fs: {
@@ -35,6 +34,6 @@ export default defineConfig({
       ],
     },
   },
-  base: '/', // IMPORTANTE para que funcione en producción
+  base: '/',
   logLevel: 'info'
 });

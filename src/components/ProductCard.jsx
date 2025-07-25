@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { addToCart } from "../api/cartApi";
 import { useNotification } from "../context/NotificationContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useProducts } from "../context/ProductContext";
 
 const ProductCard = ({ product }) => {
   const [adding, setAdding] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const { triggerNotification } = useNotification();
+  const { fetchProducts } = useProducts();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const token = localStorage.getItem("token");
 
   const handleAddToCart = async () => {
-    const token = localStorage.getItem("token");
     if (!token) {
-      triggerNotification(⚠️ Debes iniciar sesión para agregar al carrito.", "info");
+      triggerNotification("⚠️ Debes iniciar sesión para agregar al carrito.", "info");
       return;
     }
 
@@ -27,18 +32,42 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    const confirm = window.confirm(`¿Eliminar producto "${product.name}"?`);
+    if (!confirm) return;
+
+    try {
+      setDeleting(true);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/products/${product.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Error al eliminar producto");
+      triggerNotification("🗑️ Producto eliminado correctamente", "success");
+      fetchProducts();
+    } catch (err) {
+      console.error(err);
+      triggerNotification("❌ Error al eliminar producto", "error");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <div
-      className="border rounded-2xl p-4 shadow-md hover:shadow-lg transition bg-white cursor-pointer"
+      className="border rounded-2xl p-4 shadow-md hover:shadow-lg transition bg-white cursor-pointer relative"
       onClick={() => navigate(`/product/${product.id}`)}
     >
       <img
-        src={product.image || "https://dummyimage.com/300x200/cccccc/000000&text=Sin+imagen"}
+        src={product.image_url || "/images/default-product.jpg"}
         alt={product.name || "Imagen del producto"}
         className="w-full h-40 object-contain mb-2 rounded"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = "https://dummyimage.com/300x200/ff0000/ffffff&text=Imagen+no+disponible";
+          e.target.src = "/logo.png";
         }}
       />
       <h3 className="text-lg font-semibold line-clamp-2">{product.name}</h3>
@@ -56,16 +85,22 @@ const ProductCard = ({ product }) => {
       >
         {adding ? "Agregando..." : "Agregar al carrito"}
       </button>
+
+      {/* BOTÓN ELIMINAR SOLO SI HAY TOKEN Y ESTÁS EN /categories/:id */}
+      {token && location.pathname.startsWith("/categories/") && (
+        <button
+          onClick={handleDelete}
+          disabled={deleting}
+          className={`absolute top-2 right-2 text-sm bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded ${
+            deleting ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          {deleting ? "Eliminando..." : "Eliminar"}
+        </button>
+      )}
     </div>
   );
 };
 
 export default ProductCard;
-
-
-
-
-
-
-
 

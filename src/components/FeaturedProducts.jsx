@@ -21,7 +21,7 @@ const FeaturedProducts = () => {
               key={product.id}
               className="bg-white shadow-md rounded p-4 text-center"
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={{ opacity:  1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
               <img
@@ -36,9 +36,7 @@ const FeaturedProducts = () => {
                     <span className="line-through text-gray-400 text-sm mr-2">
                       ${product.original_price || (product.price + product.discount)}
                     </span>
-                    <span className="text-green-600 font-bold">
-                      ${product.price}
-                    </span>
+                    <span className="text-green-600 font-bold">${product.price}</span>
                   </div>
                 ) : (
                   <span className="text-gray-700">${product.price}</span>
@@ -59,4 +57,5 @@ const FeaturedProducts = () => {
 };
 
 export default FeaturedProducts;
+
 

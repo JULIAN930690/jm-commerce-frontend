@@ -4,6 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../context/UserContext";
 
+const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "");
+
 const schema = yup.object().shape({
   email: yup.string().email("Correo inválido").required("El correo es obligatorio"),
   password: yup.string().required("La contraseña es obligatoria"),
@@ -21,7 +23,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:8000/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -70,3 +72,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+
+
+

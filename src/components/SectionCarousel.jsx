@@ -12,14 +12,7 @@ const SectionCarousel = ({ title = "", products = [] }) => {
   const fallbackImage = "https://placehold.co/300x300?text=Producto";
 
   const renderCard = (product) => {
-    const {
-      id,
-      name = "Sin nombre",
-      price = 0,
-      image,
-      image_url,
-    } = product;
-
+    const { id, name = "Sin nombre", price = 0, image, image_url } = product;
     const imgSrc = image || image_url || fallbackImage;
 
     return (
@@ -40,9 +33,7 @@ const SectionCarousel = ({ title = "", products = [] }) => {
           />
           <div className="p-3">
             <h3 className="text-sm font-semibold truncate">{name}</h3>
-            <p className="text-green-600 font-bold mt-1">
-              ${Number(price).toFixed(2)}
-            </p>
+            <p className="text-green-600 font-bold mt-1">${Number(price).toFixed(2)}</p>
           </div>
         </Link>
       </motion.div>
@@ -65,6 +56,7 @@ const SectionCarousel = ({ title = "", products = [] }) => {
 };
 
 export default SectionCarousel;
+
 
 
 

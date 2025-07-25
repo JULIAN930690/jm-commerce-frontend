@@ -6,11 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AppRoutes from "./routers/routers";
+import ScrollToTop from "./utils/ScrollToTop"; // ✅ nuevo helper opcional
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
+      <ScrollToTop /> {/* Evita que se quede abajo al cambiar de página */}
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <Navbar />
         <main className="flex-grow pt-16 px-4">
           <AppRoutes />
@@ -23,6 +25,7 @@ function App() {
 }
 
 export default App;
+
 
 
 

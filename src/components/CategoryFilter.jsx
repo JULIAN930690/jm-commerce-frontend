@@ -4,7 +4,6 @@ import { useProducts } from "../context/ProductContext";
 const CategoryFilter = () => {
   const { categories, selectedCategory, setSelectedCategory } = useProducts();
 
-  // Validación para evitar errores si categories no está cargado aún
   const categoryList = Array.isArray(categories) ? categories : [];
 
   const handleChange = (e) => {
@@ -32,6 +31,7 @@ const CategoryFilter = () => {
 };
 
 export default CategoryFilter;
+
 
 
 

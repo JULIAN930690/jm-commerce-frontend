@@ -1,4 +1,3 @@
-// src/pages/ProfilePage.jsx
 import React, { useEffect, useState } from 'react';
 
 const ProfilePage = () => {
@@ -8,12 +7,12 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (userData) {
-      fetch(`/api/orders/user/${userData.id}`)
+      fetch(`${import.meta.env.VITE_API_URL || ''}/orders/user/${userData.id}`)
         .then(res => res.json())
         .then(data => setOrders(data))
         .catch(err => console.error("Error cargando pedidos:", err));
 
-      fetch(`/api/addresses/user/${userData.id}`)
+      fetch(`${import.meta.env.VITE_API_URL || ''}/addresses/user/${userData.id}`)
         .then(res => res.json())
         .then(data => setAddresses(data))
         .catch(err => console.error("Error cargando direcciones:", err));
@@ -73,4 +72,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-

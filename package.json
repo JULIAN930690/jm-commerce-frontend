@@ -12,6 +12,8 @@
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",
     "@hookform/resolvers": "^5.0.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
     "autolinker": "^3.0.0",
     "axios": "^1.9.0",
     "btoa": "^1.2.1",
@@ -30,6 +32,7 @@
     "react-router-dom": "^7.5.0",
     "react-toastify": "^11.0.5",
     "swagger-ui-react": "^5.24.0",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "traverse": "^0.6.11",
     "yup": "^1.6.1"
   },

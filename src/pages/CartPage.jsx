@@ -15,12 +15,12 @@ const CartPage = () => {
     removeFromCart(productId);
   };
 
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+  const totalPrice = cartItems?.reduce(
+    (sum, item) => sum + item?.product?.price * item?.quantity,
     0
   );
 
-  if (!cartItems.length)
+  if (!cartItems?.length)
     return (
       <div className="text-center mt-10">
         <p className="text-gray-600 mb-4">Tu carrito está vacío.</p>
@@ -82,3 +82,4 @@ const CartPage = () => {
 };
 
 export default CartPage;
+

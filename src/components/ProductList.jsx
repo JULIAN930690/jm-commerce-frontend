@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ProductCard from "./ProductCard";
 import { motion } from "framer-motion";
 import { useProducts } from "../context/ProductContext";
+import { useSearch } from "../context/SearchContext";
 
 function ProductList() {
   const {
@@ -9,8 +10,6 @@ function ProductList() {
     categories,
     selectedCategory,
     setSelectedCategory,
-    search,
-    setSearch,
     minPrice,
     setMinPrice,
     maxPrice,
@@ -24,22 +23,67 @@ function ProductList() {
     totalPages,
   } = useProducts();
 
+  const { searchTerm } = useSearch();
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, minPrice, maxPrice, sortBy, order, selectedCategory]);
+  }, [searchTerm, minPrice, maxPrice, sortBy, order, selectedCategory]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   const handleResetFilters = () => {
-    setSearch("");
+    // No tocamos searchTerm aquí porque es global, pero podés resetearlo si querés
+    // setSearchTerm(""); // Solo si querés resetear globalmente
     setMinPrice("");
     setMaxPrice("");
     setSelectedCategory("");
     setSortBy("created_at");
     setOrder("desc");
   };
+
+  // Filtrado de productos según filtros y búsqueda global (searchTerm)
+  const filteredProducts = useMemo(() => {
+    return products
+      .filter((p) => {
+        // Filtrar por búsqueda (nombre o descripción)
+        const searchLower = searchTerm.toLowerCase();
+        const matchSearch =
+          p.name.toLowerCase().includes(searchLower) ||
+          p.description.toLowerCase().includes(searchLower);
+
+        // Filtrar por categoría
+        const matchCategory =
+          selectedCategory === "" || p.category_id === selectedCategory;
+
+        // Filtrar por precio mínimo y máximo
+        const price = Number(p.price);
+        const minOk = minPrice === "" || price >= Number(minPrice);
+        const maxOk = maxPrice === "" || price <= Number(maxPrice);
+
+        return matchSearch && matchCategory && minOk && maxOk;
+      })
+      .sort((a, b) => {
+        let compare = 0;
+        if (sortBy === "created_at") {
+          compare = new Date(b.created_at) - new Date(a.created_at);
+        } else if (sortBy === "price") {
+          compare = a.price - b.price;
+        } else if (sortBy === "name") {
+          compare = a.name.localeCompare(b.name);
+        }
+
+        return order === "asc" ? compare : -compare;
+      });
+  }, [products, searchTerm, selectedCategory, minPrice, maxPrice, sortBy, order]);
+
+  // Paginación: obtener los productos para la página actual
+  const pageSize = 9; // Ejemplo: 9 productos por página
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredProducts.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, currentPage]);
 
   return (
     <motion.div
@@ -55,9 +99,10 @@ function ProductList() {
         <input
           type="text"
           placeholder="Buscar..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="p-2 border rounded col-span-2"
+          value={searchTerm}
+          readOnly
+          className="p-2 border rounded col-span-2 bg-gray-100 cursor-not-allowed"
+          aria-label="Búsqueda desde navbar"
         />
         <input
           type="number"
@@ -92,15 +137,6 @@ function ProductList() {
         </select>
       </div>
 
-      <div className="mb-6">
-        <button
-          onClick={handleResetFilters}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Limpiar filtros
-        </button>
-      </div>
-
       {/* Filtro de Categoría */}
       <div className="bg-white shadow-md rounded p-4 mb-6">
         <h3 className="text-lg font-semibold mb-4">Filtrar por categoría</h3>
@@ -123,8 +159,9 @@ function ProductList() {
 
       {/* Cantidad de productos */}
       <p className="text-sm text-gray-600 mb-4">
-        {products.length} producto{products.length !== 1 ? "s" : ""} encontrado
-        {products.length !== 1 ? "s" : ""}
+        {filteredProducts.length} producto
+        {filteredProducts.length !== 1 ? "s" : ""} encontrado
+        {filteredProducts.length !== 1 ? "s" : ""}
       </p>
 
       {/* Lista de productos */}
@@ -135,8 +172,8 @@ function ProductList() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {products.length > 0 ? (
-          products.map((product, index) => (
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -178,5 +215,6 @@ function ProductList() {
 }
 
 export default ProductList;
+
 
 
