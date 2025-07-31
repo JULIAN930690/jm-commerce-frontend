@@ -75,7 +75,7 @@ const CategoryDetail = () => {
       {category && (
         <div className="mb-6 text-center">
           <img
-            src={categoryImages[category.name] || "/logo.png"}
+            src={`/static${categoryImages[category.name] || "/logo.png"}`}
             alt={category.name}
             className="w-32 h-32 object-cover mx-auto rounded"
           />
@@ -101,6 +101,7 @@ const CategoryDetail = () => {
 };
 
 export default CategoryDetail;
+
 
 
 

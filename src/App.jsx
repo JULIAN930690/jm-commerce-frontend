@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AppRoutes from "./routers/routers";
-import ScrollToTop from "./utils/ScrollToTop"; // ✅ nuevo helper opcional
+import ScrollToTop from "./utils/scrolltotop"; // ✅ en minúscula para que funcione en Linux/Vercel
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
