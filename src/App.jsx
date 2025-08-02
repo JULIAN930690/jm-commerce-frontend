@@ -6,10 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AppRoutes from "./routers/routers";
+import ScrollToTop from "./utils/scrollToTop"; // ✅ import correcto
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop /> {/* ✅ agregado correctamente */}
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Navbar />
         <main className="flex-grow pt-16 px-4">
